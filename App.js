@@ -5,8 +5,11 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
+import DrawerNavigator from "./screens/DrawerNavigator";
+import BottomNavigator from "./screens/BottomNavigator";
 
 const stack = createNativeStackNavigator();
 
@@ -31,25 +34,13 @@ export default function App() {
             headerTintColor: "white",
             contentStyle: { backgroundColor: "#24180f" },
           }}
-          initialRouteName="MealCategories"
         >
           <stack.Screen
-            name="MealCategories"
-            component={CategoriesScreen}
-            options={{
-              title: "All Catrgories",
-            }}
+            name="BottomNavigator"
+            component={BottomNavigator}
+            options={{ headerShown: false }}
           />
-          <stack.Screen
-            name="MealsOverview"
-            component={MealsOverviewScreen}
-            // options={({ route, navigation }) => {
-            //   const catTitle = route.params.categoryId;
-            //   return {
-            //     title: catTitle,
-            //   };
-            // }}
-          />
+          <stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
           <stack.Screen
             name="MealDetailsScreen"
             component={MealDetailsScreen}
