@@ -3,6 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import MealsOverviewScreen from "./screens/MealsOverviewScreen";
+import MealDetailsScreen from "./screens/MealDetailsScreen";
+
+const stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsloaded] = useFonts({
@@ -11,17 +17,47 @@ export default function App() {
   });
 
   if (!fontsloaded) {
-    return <AppLoading></AppLoading>;
+    return;
+    // return <AppLoading></AppLoading>;
   }
 
-  return <CategoriesScreen />;
+  return (
+    <>
+      <StatusBar style="light" />
+      <NavigationContainer>
+        <stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: "#351401" },
+            headerTintColor: "white",
+            contentStyle: { backgroundColor: "#24180f" },
+          }}
+          initialRouteName="MealCategories"
+        >
+          <stack.Screen
+            name="MealCategories"
+            component={CategoriesScreen}
+            options={{
+              title: "All Catrgories",
+            }}
+          />
+          <stack.Screen
+            name="MealsOverview"
+            component={MealsOverviewScreen}
+            // options={({ route, navigation }) => {
+            //   const catTitle = route.params.categoryId;
+            //   return {
+            //     title: catTitle,
+            //   };
+            // }}
+          />
+          <stack.Screen
+            name="MealDetailsScreen"
+            component={MealDetailsScreen}
+          />
+        </stack.Navigator>
+      </NavigationContainer>
+    </>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});

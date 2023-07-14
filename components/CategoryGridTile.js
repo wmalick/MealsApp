@@ -1,6 +1,7 @@
 import { StyleSheet, Pressable, View, Text, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-function CategoryGridTile({ title, color }) {
+function CategoryGridTile({ title, color, onPress }) {
   return (
     <View style={styles.gridTile}>
       <Pressable
@@ -9,6 +10,7 @@ function CategoryGridTile({ title, color }) {
           styles.pressableStyle,
           pressed ? styles.buttonPressed : null,
         ]}
+        onPress={onPress}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.text}>{title}</Text>
@@ -26,10 +28,12 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 16,
     elevation: 4,
+    borderRadius: 8,
     shadowColor: "black",
     shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    backgroundColor: "white",
     overflow: Platform.os === "android" ? "hidden" : "visible",
   },
   pressableStyle: {
