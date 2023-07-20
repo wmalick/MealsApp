@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DrawerNavigator from "./DrawerNavigator";
 import FavouritMealsScreen from "./FavouriteMealsScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 
 const bottomTabs = createBottomTabNavigator();
 
@@ -17,6 +18,7 @@ function BottomNavigator() {
         tabBarStyle: { backgroundColor: "#3f2f25" },
         tabBarInactiveTintColor: "white",
       }}
+      sceneContainerStyle={styles.scene}
     >
       <bottomTabs.Screen
         name="All Categories"
@@ -42,3 +44,9 @@ function BottomNavigator() {
 }
 
 export default BottomNavigator;
+
+const styles = StyleSheet.create({
+  scene: {
+    backgroundColor: "#3f2f25",
+  },
+});

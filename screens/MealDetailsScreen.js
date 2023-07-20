@@ -6,15 +6,19 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import Subtitle from "../components/MealDetails/Subtitle";
 import List from "../components/MealDetails/List";
 import IconButton from "../components/IconButton";
+import { Favoritescontext } from "../store/context/favorite-context";
 
 function MealDetailsScreen({ route, navigation }) {
   const mealId = route.params.mealId;
+
+  const favoriteMealsContext = useContext(Favoritescontext);
+  const mealIsFav = favoriteMealsContext.ids.includes(mealId);
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
@@ -24,17 +28,22 @@ function MealDetailsScreen({ route, navigation }) {
       headerRight: () => {
         return (
           <IconButton
-            icon={"heart"}
+            icon={mealIsFav ? "heart" : "heart-outline"}
             color={"red"}
-            onPress={onHeaderRightIconPressHandler}
+            onPress={changeFavoriteMealStatushandler}
           />
         );
       },
     });
-  }, [mealId, navigation]);
+  }, [mealId, navigation, changeFavoriteMealStatushandler]);
 
-  function onHeaderRightIconPressHandler() {
+  function changeFavoriteMealStatushandler() {
     console.log("Pressd.....................!");
+    if (mealIsFav) {
+      favoriteMealsContext.removeFavorite(mealId);
+    } else {
+      favoriteMealsContext.addFavorite(mealId);
+    }
   }
 
   return (
@@ -49,9 +58,9 @@ function MealDetailsScreen({ route, navigation }) {
       />
       <View style={styles.listOuterContainer}>
         <View style={styles.listContainer}>
-          <Subtitle>ingredients</Subtitle>
+          <Subtitle>INGREDIENTS</Subtitle>
           <List data={selectedMeal.ingredients} />
-          <Subtitle>steps</Subtitle>
+          <Subtitle>STEPS</Subtitle>
           <List data={selectedMeal.steps} />
         </View>
       </View>
